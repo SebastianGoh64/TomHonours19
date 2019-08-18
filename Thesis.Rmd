@@ -21,26 +21,67 @@ date_test <- substring(date_test, 1,10)
 
 
 Corpus transformation will require a dataframe with unique ID at start and text in 2nd column. All other columns will be imported as metadata.
+
+When was the first tweet?
+How many tweets each politician?
+Plot total tweets over time.
+
+### Summary Statistics
+
+Top 20 'tweeters
+
+`head(tweet_count, 20)`
+
+Can't knit something from the global environment. Best idea is to save table as csv and load csv in RMarkdown. Can possibly also save an image of the workspace?
+
+https://stackoverflow.com/questions/42340928/knit-error-object-not-found
+```{r}
+
+
+knitr::kable(head(tweet_count, 10), format = "markdown")
+```
+
+Still working out how to filter the dataset on multiple words. Can filter it on one word fairly easily so far. 
+
+Creating document term matrix created some errors as it said the file would be too big (~25gb). Need to work out whether this is necessary to be doing word counts. Trial with smaller sets of data
+
+### Pre-Processing Text
+
+With the tm package you can remove stopwords, whitespace and punctuation and convert to lower very easily. (for corpus objects).
+
+Removing emoji and URLs have been a bit more complex. When the text is just in a dataframe it's easy to clean using gsub function. (might need to test a  bit more). Theoretically the tm_map function should be able to work with the gsub function but it doesn't seem to actually change the corpus. Might just need to clean it in dataframe before putting into corpus.
+
+I'm reluctant to change the raw_tweets dataframe though. Also don't want to create too many dataframes b/c will lose them easily. 
+
+### Methodology 
+
+Twitter doesn't ban politicians, insteads hides content that might be inflammatory.
+
+Is there a common factor behind deleted accounts/private accounts and not having an account? Need to consider whether there is a bias in the attrition or whether it is random. 
+
 ###Current Issues
 
+- Doing word counts (too big to put into document term matrix)
+ 
+- removing URLs in the cleanest way possible. 
 
+## R Markdown - Workshop
 
-## R Markdown
+Quick commands
+* Italics * - *Italics*
+** Bold ** - **Bold**
+` code ` - `code`
+[links](rmarkdown.rstudio.com)
+Many more
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+LateX equations ($)
+$E = mc^2 $
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Bibliographies [@rmarkdown15]
 
-```{r cars}
-summary(cars)
-```
+You can create a list by starting lines with - + or *
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+*Item A
+  +Item a
+  *Item aa
+-Item B
